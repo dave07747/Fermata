@@ -1,28 +1,26 @@
 package com.lrnplex.fermata;
 
+import android.util.Log;
+
 /**
  * Created by David on 7/8/2016.
  */
 public class World {
-    static final int WORLD_WIDTH = 160;
-    static final int WORLD_HEIGHT = 90;
-    static final int SCORE_INCREMENT = 1;
-    static final float TICK_INITIAL = 0.5f;
-    static final float TICK_DECREMENT = 0.05f;
-    final int BALL_BUFFER = -15;
+    static final float TICK_INITIAL = 0.05f;
+
 
     public ArcControl arcControl;
     public Ball ball;
     public boolean gameOver = false;
     public int score = 0;
     boolean jump = false;
-    int iterator = 0;
+    int iterator = 0;  //50
     boolean fall = false;
     boolean oneTouch = false;
 
     //boolean fields[][] = new boolean[WORLD_WIDTH][WORLD_HEIGHT];
     //Random random = new Random();
-    float tickTime = 0;
+    float tickTime = 0f;
     float tick = TICK_INITIAL;
 
     public World(){
@@ -44,59 +42,48 @@ public class World {
             if(arcControl.checkLastArc())
                 arcControl.addArc();
 
-            /**
-             * Do something to check if ball not dead and update ball
-             */
 
-            if(ball.getY() == 720)
-                gameOver = true;        // Ball dead
+            if(ball.getY() > 720) {
+                gameOver = true;        // uncomment for gameover
+            }
 
-            if(jump == true){
-                if(iterator < 13)
-                    ball.jumpStart();
-                if(iterator >= 13 && iterator < 18)
-                    ball.jump();
-                if(iterator >= 18)
-                    ball.jumpEnd();
+
+            if(jump){
+               // Log.d("World", "Jumping");
                 iterator++;
-                if(iterator == 20){
-                    jump = false;
-                    fall = true;
+               if(iterator <= 100 ) {//&& arcControl.ballCheck() > ball.getY()-100
+                   double ballPos = arcControl.ballCheck();
+                   Log.d("Ball position on arc", "update: " + ballPos);
+                   if(ball.getY()-110 < ballPos || ballPos == 840)
+                       ball.jump(iterator);
+                   else {
+                       iterator = 101;
+                       ball.fall();
+                       jump = false;
+                       oneTouch = false;
+                   }
                 }
+                //Log.d("fermata", "update: " + iterator);
             }
-
-            if(fall == true){
-                // Log.d("fall", "updateRunning: Falling");
-                if(iterator > 10)
-                    ball.fallStart();
-                if(iterator <= 8 && iterator > 6)
+            else {
+                double ballPos = arcControl.ballCheck();
+                if(ballPos != 840)
+                    ball.setY(ballPos);
+                else{
                     ball.fall();
-                if(iterator <= 6)
-                    ball.fallEnd();
-                if(iterator != 0)
-                    iterator--;
-                if(ball.getY() + 10 < arcControl.ballCheck())
-                    ball.fallEnd();
-                else
-                    ball.move(1);
-               /* if(iterator == 0){
-                    fall = false;
-                    oneTouch = false;
-                }*/
-                /**
-                 * TODO: iterator won't work here. Instead check if ball is 15px above arc
-                 */
-            }
-
-            if(!fall && !jump)
-            {
-
+                }
+                iterator = 0;
             }
 
 
+            if(arcControl.scoreArc()) {
+                score++;
+            }
+            //}
 
-            if(score % 10 == 0 && tick - TICK_DECREMENT > 0)
-                tick -= TICK_DECREMENT;
+            if(score % 5 == 0)//&& tick - TICK_DECREMENT > 0)
+                arcControl.arcMove+= 0.01;
+                //tick -= TICK_DECREMENT;
         }
     }
 }

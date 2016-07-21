@@ -28,6 +28,8 @@ public class GameScreen extends Screen {
     Music music;
     Ball ball;
 
+    boolean firstTouch = true;
+
 
     public GameScreen(Game game){
         super(game);
@@ -74,9 +76,10 @@ public class GameScreen extends Screen {
             }
             if(event.type == TouchEvent.TOUCH_DOWN){
                 if(event.x <= 1200 && event.y >= 80){
-                    /**
-                     * TODO: make ball jump here
-                     */
+                    if(firstTouch){
+                        firstTouch = false;
+                        continue;
+                    }
 
                     if(!world.oneTouch) {
                         world.jump = true;
@@ -140,7 +143,7 @@ public class GameScreen extends Screen {
                     return;
                 }
 
-                if(inBounds(event, 430, 660, 120, 120)){ // coordinates of sound enable
+                if(inBounds(event, 430, 600, 120, 120)){ // coordinates of sound enable
                     Log.d("Update: ", "Toggled Sound");
                     Settings.soundEnabled = !Settings.soundEnabled;
                     if(Settings.soundEnabled) {
@@ -152,7 +155,7 @@ public class GameScreen extends Screen {
                     }
                 }
 
-                if(inBounds(event, 580, 660, 120, 120)){ // coordinates of scoring
+                if(inBounds(event, 580, 600, 120, 120)){ // coordinates of scoring
                     // instruction for score screen goes here
                     Log.d("Update: ", "Touched scoring");
                     if(Settings.soundEnabled)
@@ -160,7 +163,7 @@ public class GameScreen extends Screen {
                     return;
                 }
 
-                if(inBounds(event, 740, 660, 120, 120)){ // coordinates for theme
+                if(inBounds(event, 730, 600, 120, 120)){ // coordinates for theme
                     Log.d("Update: ", "Touched theme");
                     game.setScreen(new ThemeScreen(game));
                     if(Settings.soundEnabled)
@@ -175,7 +178,8 @@ public class GameScreen extends Screen {
     public void present(float deltaTime){
         Graphics g = game.getGraphics();
 
-        g.clear(0x808090); // Change this to the active background later on
+       // g.clear(0x808090); // Change this to the active background later on
+        g.drawPixmap(Assets.getBackground(), 0, 0);
         drawWorld(world);
         if(state == GameState.Ready)
             drawReadyUI();
@@ -197,11 +201,11 @@ public class GameScreen extends Screen {
         for(int i = 0; i < len; ++i){
             Arc arc = arcControl.arcs.get(i);
             //arc.scale();
-            g.drawArc(arc);
+            g.drawPixmap(arc.getArc(), (int)arc.getX(), (int)arc.getY());
         }
 
         // Draw ball here
-        g.drawPixmap(Assets.getBall(), ball.getX(), ball.getY());
+        g.drawPixmap(Assets.getBall(), (int)ball.getX(), (int)ball.getY());
     }
 
     private void drawReadyUI() {
@@ -224,21 +228,24 @@ public class GameScreen extends Screen {
 
         g.drawPixmap(Assets.getResume(), 340, 140);
         g.drawPixmap(Assets.getQuit(), 470, 350);
+
+        game.save();
     }
 
     private void drawGameOverUI(){
         Graphics g = game.getGraphics();
 
-        drawText(g, score, g.getWidth() /2 - score.length()*20 / 2, g.getHeight() - 700); // Adjust coordinates for score to center
+        drawText(g, score, g.getWidth() /2 - score.length()*20 / 2 - 40, g.getHeight() - 500); // Adjust coordinates for score to center
 
         g.drawPixmap(Assets.getGameOver(), 240, 20);    //Game over text
         g.drawPixmap(Assets.getStart() , 530, 360);     //Start Button
+        music = game.getMusic();
         if(Settings.soundEnabled)
-            g.drawPixmap(Assets.getSoundOn(), 430, 660);//Sound Enabled
+            g.drawPixmap(Assets.getSoundOn(), 430, 600);//Sound Enabled
         else
-            g.drawPixmap(Assets.getSoundOff(), 430, 660);//Sound disabled
-        g.drawPixmap(Assets.getScore(), 580, 660);       //Score Button
-        g.drawPixmap(Assets.getThemeScreen(), 740, 660); //Theme Button
+            g.drawPixmap(Assets.getSoundOff(), 430, 600);//Sound disabled
+        g.drawPixmap(Assets.getScore(), 580, 600);       //Score Button
+        g.drawPixmap(Assets.getThemeScreen(), 730, 600); //Theme Button
     }
 
     private void drawText(Graphics g, String line, int x, int y){
@@ -247,7 +254,7 @@ public class GameScreen extends Screen {
             char character = line.charAt(i);
 
             if(character == ' '){
-                x += 100;
+                x += 50;
                 continue;
             }
 
@@ -279,10 +286,10 @@ public class GameScreen extends Screen {
     public void pause() {
         if(state == GameState.Running)
             state = GameState.Paused;
-        if(world.gameOver && Settings.highscore < world.score){
+        if(Settings.highscore < world.score){
             Settings.highscore = world.score;
-            game.save();
         }
+        game.save();
     }
 
     @Override

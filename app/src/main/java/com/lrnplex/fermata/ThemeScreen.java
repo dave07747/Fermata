@@ -23,8 +23,8 @@ public class ThemeScreen extends Screen {
     public void present(float deltaTime){
         Graphics g = game.getGraphics();
 
-        g.clear(0x123456);
-        g.drawArc(10,20, 100, 100, 0, 180, 0xffffff);
+        g.drawPixmap(Assets.getBackground(), 0, 0);
+
     }
 
     @Override
@@ -40,7 +40,5 @@ public class ThemeScreen extends Screen {
 
     @Override
     public void dispose() {
-        music.stop();
-        music.dispose();
     }
 }

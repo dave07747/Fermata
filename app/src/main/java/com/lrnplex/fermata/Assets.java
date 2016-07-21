@@ -9,7 +9,7 @@ import com.lrnplex.framework.Sound;
 public class Assets {
 
     /**
-     * Add whatever assets needed, just a baseline here
+     * Just a class that holds all the assets that we need
      */
 
     private static Pixmap numbers;
@@ -25,9 +25,45 @@ public class Assets {
     private static Pixmap resume;
     private static Pixmap quit;
     private static Pixmap ball;
+    private static Pixmap arc1;
+    private static Pixmap arc2;
+    private static Pixmap arc3;
+    private static Pixmap background;
 
     private static Sound fall;
     private static Sound click;
+
+    public static Pixmap getBackground() {
+        return background;
+    }
+
+    public static void setBackground(Pixmap background) {
+        Assets.background = background;
+    }
+
+    public static Pixmap getArc1() {
+        return arc1;
+    }
+
+    public static void setArc1(Pixmap arc1) {
+        Assets.arc1 = arc1;
+    }
+
+    public static Pixmap getArc2() {
+        return arc2;
+    }
+
+    public static void setArc2(Pixmap arc2) {
+        Assets.arc2 = arc2;
+    }
+
+    public static Pixmap getArc3() {
+        return arc3;
+    }
+
+    public static void setArc3(Pixmap arc3) {
+        Assets.arc3 = arc3;
+    }
 
     public static Pixmap getBall() {
         return ball;

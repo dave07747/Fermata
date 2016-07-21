@@ -1,7 +1,5 @@
 package com.lrnplex.framework;
 
-import com.lrnplex.fermata.Arc;
-
 /**
  * Created by David on 6/23/2016.
  */
@@ -24,15 +22,15 @@ public interface Graphics {
 
     void drawRect(int x, int y, int width, int height, int color);
 
-    void drawArc(int x, int y, int width, int height, int startAngle, int sweepAngle, int color);
+   // void drawArc(int x, int y, int width, int height, int startAngle, int sweepAngle, int color);
 
-    void drawArc(Arc arc);
-
-    //void drawArc(Arc arc, int x, int y, int width, int height);
+    //void drawArc(Arc arc);
 
     void drawPixmap(Pixmap pixmap, int x, int y, int srcX, int srcY, int srcWidth, int srcHeight);
 
     void drawPixmap(Pixmap pixmap, int x, int y);
+
+    void drawPixmap(Pixmap pixmap, float x, float y);
 
     int getWidth();
 

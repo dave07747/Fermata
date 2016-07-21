@@ -13,9 +13,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
-import android.graphics.RectF;
 
-import com.lrnplex.fermata.Arc;
 import com.lrnplex.framework.Graphics;
 import com.lrnplex.framework.Pixmap;
 
@@ -104,26 +102,26 @@ public class AndroidGraphics implements Graphics {
         canvas.drawRect(x, y, x + width - 1, y + width - 1, paint);
     }
 
-    public void drawArc(int x, int y, int width, int height, int startAngle, int sweepAngle, int color) {
+   /* public void drawArc(int x, int y, int width, int height, int startAngle, int sweepAngle, int color) {
         paint.setColor(color);
         paint.setAlpha(0xff);
         paint.setStyle(Style.STROKE);
         paint.setStrokeWidth(15);
         RectF oval = new RectF(x, y, x + width - 1, y + height -1);
         canvas.drawArc(oval, startAngle, sweepAngle, false, paint);
-    }
+    }*/
 
-    public void drawArc(Arc arc){
+   /* public void drawArc(Arc arc){
         paint.setColor(arc.getColor());
         paint.setAlpha(0xff);
         paint.setStyle(Style.STROKE);
         paint.setStrokeWidth(15);
         RectF oval = new RectF(arc.getX() * arc.scalar, arc.getY()* arc.scalar, arc.getX()* arc.scalar + arc.getWidth()* arc.scalar - 1, arc.getY()* arc.scalar + arc.getHeight()* arc.scalar -1);
         canvas.drawArc(oval, arc.getStartAngle(), arc.getSweepAngle(), false, paint);
-    }
+    }*/
 
 
-    public void drawPixmap(Pixmap pixmap, int x, int y, int srcX, int srcY,
+    public void drawPixmap(Pixmap pixmap , int x, int y, int srcX, int srcY,
                            int srcWidth, int srcHeight) {
         srcRect.left = srcX;
         srcRect.top = srcY;
@@ -139,6 +137,10 @@ public class AndroidGraphics implements Graphics {
     }
 
     public void drawPixmap(Pixmap pixmap, int x, int y) {
+        canvas.drawBitmap(((AndroidPixmap)pixmap).bitmap, x, y, null);
+    }
+
+    public void drawPixmap(Pixmap pixmap, float x, float y) {
         canvas.drawBitmap(((AndroidPixmap)pixmap).bitmap, x, y, null);
     }
 

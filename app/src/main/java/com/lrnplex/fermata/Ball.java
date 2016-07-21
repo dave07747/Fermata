@@ -1,47 +1,35 @@
 package com.lrnplex.fermata;
 
+import android.util.Log;
+
 /**
  * Created by David on 7/8/2016.
  */
 public class Ball {
-    private int x = 200;
-    private int y = 400;
+    private double x = 200;
+    private double y = 500;
 
     public Ball(){
     }
 
-    public void move(int height){
-        y += height;
+    public void setY(double pos){
+        y = pos;
     }
 
-    public void jumpStart(){
-        y -= 10;
-    }
-
-    public void jump(){
-        y -= 7;
-    }
-    public void jumpEnd(){
-        y -= 4;
-    }
-
-    public void fallStart(){
-        y += 4;
+    public void jump(int iterator){
+        y = (Math.pow(20 - iterator, 2)/(4*.25) -00);
+        Log.d("Fermata", "jump: " + y);
     }
 
     public void fall(){
-        y += 7;
+        y += 50;
     }
 
-    public void fallEnd(){
-        y += 10;
-    }
-
-
-    public int getX() {
+    public double getX() {
         return x;
     }
-    public int getY() {
+
+    public double getY() {
         return y;
     }
 }

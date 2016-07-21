@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class MainMenuScreen extends Screen {
     private List <Arc> arcList = new ArrayList<Arc>();
-    private int color = 0x808080;
+    //private int color = 0x808080;
     private Random rand;
 
     private Music music;
@@ -92,9 +92,11 @@ public class MainMenuScreen extends Screen {
     public void present(float deltaTime){
         Graphics g = game.getGraphics();
 
-        //color = BackgroundColor.nextColor();
 
-        g.clear(color); //Temp background color
+
+        //g.clear(color); //Temp background color
+
+        g.drawPixmap(Assets.getBackground(), 0, 0);
 
         g.drawPixmap(Assets.getTitle(), 250, 20 ); // Display title
         g.drawPixmap(Assets.getStart(), 540, 300); // Display start button
@@ -133,7 +135,6 @@ public class MainMenuScreen extends Screen {
     }
 
     public void pause(){
-        game.save();
 
     }
 

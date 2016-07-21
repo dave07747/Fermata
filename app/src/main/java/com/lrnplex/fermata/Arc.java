@@ -1,83 +1,96 @@
 package com.lrnplex.fermata;
 
+import com.lrnplex.framework.Pixmap;
+
 /**
  * Created by David on 7/6/2016.
  */
 public class Arc {
     private float x;
     private float y;
-    private float width;
-    private float height;
-    private int color;
-    private float startAngle;
-    private float sweepAngle;
+    float realY;
+
     public float scalar = 8;
-    private int colorChoice;
+    private int arcType;
 
-    private float trueX;
-    private float trueY;
-    private float a;
-    private float b;
+    private boolean score = false;
 
-    public Arc(float x, float y, float width, float height, float startAngle, float sweepAngle, int choice){
+    int iterator = 24;
+
+    public Arc(float x, float y,  int arcType){
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
-        this.colorChoice = choice;
-        this.startAngle = startAngle;
-        this.sweepAngle = sweepAngle;
-        setColor();
+        this.arcType = arcType;
 
-        this.trueX = x+(width/2);
-        this.trueY = y+(height/2);
-        this.a = width/2;
-        this.b = height/2;
     }
 
-    public void moveArc(){
-        x-=1;
+    public void setScore() {
+        this.score = true;
     }
 
-    public float getStartAngle() {
-        return startAngle;
+    public boolean getScore() {
+        return score;
     }
 
-    public float getSweepAngle() {
-        return sweepAngle;
+    public void moveArc(double arcMove){
+        this.x -= arcMove;
+    }
+
+    public Pixmap getArc() {
+        switch (arcType){
+            case 1:
+                return Assets.getArc1();
+            case 2:
+                return Assets.getArc2();
+            case 3:
+                return Assets.getArc3();
+            default:
+                arcType = 1;
+                return Assets.getArc1();
+        }
     }
 
     public float getX() {
-        return x;
+        return x * scalar;
     }
 
     public float getY() {
-        return y;
+        return y * scalar;
+    }
+    public int getYPoint(){
+        float h = getX() + (getLength()/2) -1;
+        float k = getY() + (getHeight()/2) - 1;
+        float a = (getLength()/2);
+        float b =  (getHeight()/2);
+        int num = (int)(k + b * Math.sqrt(1 - Math.pow(((210 - h)/a), 2)))-125;
+        if(num < 100)
+            realY = y;
+        return  num;
     }
 
-    public float getWidth() {
-        return width;
-    }
-
-    public float getHeight() {
-        return height;
-    }
-
-    public int getColor() {
-        return color;
-    }
-
-    public void setColor(){
-        switch (colorChoice){
-            case 0:
-                color = BackgroundColor.nextColorBlue();
-                break;
+    public int getLength(){
+        switch (arcType){   //-80
             case 1:
-                color = BackgroundColor.nextColorGreen();
-                break;
+                return 300;
             case 2:
-                color = BackgroundColor.nextColorRed();
-                break;
+                return 237;
+            case 3:
+                return 450;
+            default:
+                return 300;
+        }
+    }
+
+    public int getHeight(){
+        switch (arcType){   //+40
+            case 1:
+                return 158;
+            case 2:
+                return 125;
+            case 3:
+                return 170;
+            default:
+                return 158;
         }
     }
 }
