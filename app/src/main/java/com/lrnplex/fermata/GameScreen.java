@@ -30,6 +30,8 @@ public class GameScreen extends Screen {
 
     boolean firstTouch = true;
 
+    boolean firstPlay = true;
+
 
     public GameScreen(Game game){
         super(game);
@@ -131,6 +133,14 @@ public class GameScreen extends Screen {
     }
 
     private void updateGameOver(List<TouchEvent> touchEvents){
+
+       /* if(firstPlay) {
+            AdColonyVideoAd ad = new AdColonyVideoAd(String.valueOf(R.string.zone_ids));
+            ad.show();
+            firstPlay = false;
+            Log.d("fermata", "updateGameOver: " + ad.isReady());
+        }*/
+
         int len = touchEvents.size();
         for(int i = 0; i < len; ++i){
             TouchEvent event = touchEvents.get(i);

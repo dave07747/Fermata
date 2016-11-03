@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
+import com.jirbo.adcolony.AdColony;
+import com.lrnplex.fermata.R;
 import com.lrnplex.fermata.Settings;
 import com.lrnplex.framework.Audio;
 import com.lrnplex.framework.FileIO;
@@ -32,6 +34,7 @@ public abstract class AndroidGame extends Activity implements Game {
     Screen screen;
     static Music music;
     PowerManager.WakeLock wakeLock;
+
 
     @SuppressWarnings("deprecation")
     @Override
@@ -64,6 +67,8 @@ public abstract class AndroidGame extends Activity implements Game {
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "GLGame");
 
+        AdColony.configure(this, String.valueOf(R.string.client_options), String.valueOf(R.string.app_id), String.valueOf(R.string.zone_ids));
+
         music = audio.newMusic("song.ogg");
         music.setLooping(true);
         music.setVolume(1);
@@ -86,6 +91,7 @@ public abstract class AndroidGame extends Activity implements Game {
         wakeLock.acquire();
         screen.resume();
         renderView.resume();
+        load();
         if(Settings.soundEnabled)
             music.play();
     }

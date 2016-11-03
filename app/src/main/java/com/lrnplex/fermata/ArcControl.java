@@ -26,18 +26,21 @@ public class ArcControl {
     // Adds an arc to arclist
     public void addArc(){
         int arcType =  random.nextInt(arcAmount) + 1;
-        int waitDist = 0;
+        int waitDist;
         switch (arcType){   //+40
             case 1:
                 waitDist = 158 - 35;
+                break;
             case 2:
                 waitDist = 125 - 35;
+                break;
             case 3:
                 waitDist = 170 - 35;
+                break;
             default:
                 waitDist = 158 - 35;
         }
-        arcs.add(new Arc(50 + waitDist, 50+ random.nextInt(10), arcType)); //+ random.nextInt(20)
+        arcs.add(new Arc(50 + waitDist, 50+ random.nextInt(8), arcType)); //+ random.nextInt(20)
         //Log.d("Arcs", "addArc: Added arc: " + arcs.size());
     }
 
@@ -66,7 +69,7 @@ public class ArcControl {
      */
     public double ballCheck(){
         for (Arc arc : arcs) {
-            if (arc.getX() <= 250 && arc.getX() >= 170 -arc.getLength()+35) { //&& arc.getX () <= 200 + arc.getWidth()) {
+            if (arc.getX() <= 250 && arc.getX() >= 170 -arc.getLength()+40) { //&& arc.getX () <= 200 + arc.getWidth()) {
                 //Log.d("Arc get x", "ballCheck: " + arc.getY());
                 return  arc.getYPoint();
             }
